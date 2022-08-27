@@ -1,0 +1,513 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>handlebars循环套循环</title>
+    <style media="screen">
+      *{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .time{
+        float:left;
+        width:100px;
+      }
+      .content{
+        float:left;
+        border-left:1px solid black;
+        width: 100px;
+        padding-left: 20px;
+        padding-bottom: 10px;
+      }
+      #dataList li{
+        clear: both;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <ul id="dataList">
+
+      </ul>
+    </div>
+    <!-- 引入jquery、handlebars的JS文件 -->
+    <script type="text/javascript" src="/js/jquery-2.1.4.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <!-- 创建一个script标签，把type属性改为：text/x-handlebars-template -->
+    <script id="table-template" type="text/x-handlebars-template">
+      <!-- 把data的数据进行循环 -->
+      {{#each data}}
+        <li>
+          <div class="time">
+            <p>{{name}}</p>
+          </div>
+          <div class="content">
+            <!-- 把data:info里面的数据再次进行循环 -->
+            {{#each info}}
+            <!-- info里面多个数据，所以这里可以直接连续打印多个this -->
+            <p>{{this}}</p>
+            {{/each}}
+          </div>
+        </li>
+       {{/each}}
+  </script>
+
+  </body>
+</html>
+<script>
+    // JSON数据
+var data = [
+  {
+     "name":"张三",
+     "info":[
+       "眼睛",
+       "耳朵",
+       "鼻子"
+     ]
+   },{
+    "name":"李四",
+     "info":[
+       "眼睛",
+       "耳朵",
+       "鼻子"
+    ]
+ }];
+
+ // 封装一个函数，传进去三个值（填充的内容（script标签的id），（需要填充位置的id），（数据））
+ var fillTemplate = function(templateObj,contentObj,fillData){
+    var templateHtml = templateObj.html();
+    var template = Handlebars.compile(templateHtml);
+    contentObj.html(template(fillData));
+};
+
+ fillTemplate($("#table-template"),$("#dataList"),{data:data});
+</script>
+
+
+
+<li>
+    <!-- 文章缩略图 -->
+    <div class="left">
+        <a href="./article.html">
+            <img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5e7d37251bc04bf48caafe62eae2991e~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp?"
+                alt="">
+        </a>
+
+        <span class="tags_blue">开发记录</span>
+    </div>
+
+    <!-- 文章内容 -->
+    <div class="right">
+        <!-- 文章标题 -->
+        <h2>
+            <a href="./article.html">
+                <span class="tags_purple">精品</span> <span class="tags_red">置顶</span> <span
+                    class="tags_yellow">推荐</span>
+                大厂裁员下，程序员如何做“副业”？
+            </a>
+        </h2>
+
+        <!-- 文章摘要 -->
+        <p class="list-length">
+            最近大厂裁员不断，好多人思考要不要搞个副业抵御风险。那你知道程序员的副业怎么做吗？来和我一探究竟吧～</p>
+
+        <!-- 文章信息 -->
+        <div class="meta">
+            <!-- 作者头像 -->
+            <a href="javascript:;">
+                <img src="./image/user.png" alt="">
+                <span>Admin</span>
+            </a>
+
+            <div>
+                <!-- 文章点赞数 -->
+                <a href="javascript:;"><i class="iconfont icon-dianzan"></i>264</a>
+                <!-- 文章浏览量 -->
+                <a href="javascript:;"><i class="iconfont icon-huo"></i>39537</a>
+                <!-- 文章发布时间 -->
+                <a href="javascript:;"><i class="iconfont icon-shijian"></i>2022-4-23 </a>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li>
+    <!-- 文章缩略图 -->
+    <div class="left">
+        <img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/720d976d5b5947c187b8f7039126c10e~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?"
+            alt="">
+
+        <span class="tags_yellow">大前端</span>
+    </div>
+
+    <!-- 文章内容 -->
+    <div class="right">
+        <!-- 文章标题 -->
+        <h2>
+            <a href="javascript:;">
+                <span class="tags_red">置顶</span>
+                一个96年前端的2022年中总结 (落户,看房,还贷,被裁)
+            </a>
+        </h2>
+
+        <!-- 文章摘要 -->
+        <p class="list-length">「时光不负，创作不停，本文正在参加2022年中总结征文大赛」 落户 关于落户这个事, 就是一个很突然的想法,很突然,
+            得知天津有个"海河英才计划",只要是本科生, 就比较容易落户,所以就想着试一试, </p>
+
+        <!-- 文章信息 -->
+        <div class="meta">
+            <!-- 作者头像 -->
+            <a href="javascript:;">
+                <img src="./image/user.png" alt="">
+                <span>Admin</span>
+            </a>
+
+            <div>
+                <!-- 文章点赞数 -->
+                <a href="javascript:;"><i class="iconfont icon-dianzan"></i>869</a>
+                <!-- 文章浏览量 -->
+                <a href="javascript:;"><i class="iconfont icon-huo"
+                        style="color: #ee7273"></i>85971</a>
+                <!-- 文章发布时间 -->
+                <a href="javascript:;"><i class="iconfont icon-shijian"></i>2022-4-21 </a>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li>
+    <!-- 文章缩略图 -->
+    <div class="left">
+        <img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d12a45feaa59431fb4addf63f5719f37~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?"
+            alt="">
+
+        <span class="tags_blue">大前端</span>
+    </div>
+
+    <!-- 文章内容 -->
+    <div class="right">
+        <!-- 文章标题 -->
+        <h2>
+            <a href="javascript:;">从Spring为什么要用IoC的支点，我撬动了整个Spring的源码脉络！</a>
+        </h2>
+
+        <!-- 文章摘要 -->
+        <p class="list-length">
+            把镜头拉回到使用Spring后最大变化是什么？先从使用Spring的角度来看源码，好像事情也并没有那么错综复杂。
+        </p>
+
+        <!-- 文章信息 -->
+        <div class="meta">
+            <!-- 作者头像 -->
+            <a href="javascript:;">
+                <img src="./image/user.png" alt="">
+                <span>Admin</span>
+            </a>
+
+            <div>
+                <!-- 文章点赞数 -->
+                <a href="javascript:;"><i class="iconfont icon-dianzan"></i>432</a>
+                <!-- 文章浏览量 -->
+                <a href="javascript:;"><i class="iconfont icon-huo"
+                        style="color: #ee7273"></i>61587</a>
+                <!-- 文章发布时间 -->
+                <a href="javascript:;"><i class="iconfont icon-shijian"></i>2022-4-20 </a>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li>
+    <!-- 文章缩略图 -->
+    <div class="left">
+        <img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/35b7a1eb2d974573af63441508b1f678~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?"
+            alt="">
+
+        <span class="tags_purple">大前端</span>
+    </div>
+
+    <!-- 文章内容 -->
+    <div class="right">
+        <!-- 文章标题 -->
+        <h2>
+            <a href="javascript:;">你的图片加载，一点都不酷炫！不信You Look Look</a>
+        </h2>
+
+        <!-- 文章摘要 -->
+        <p class="list-length">
+            对于图片加载，咱们可以更酷炫一点！ 比如这样！ 这样！ 这样！ 还有这样的！ 前言
+            现代网站中的图片使用量是很大的，在一些门户网站中，还会有一些大尺寸的图片展示，这个时候图片如果加载不顺畅，是很影响用
+        </p>
+
+        <!-- 文章信息 -->
+        <div class="meta">
+            <!-- 作者头像 -->
+            <a href="javascript:;">
+                <img src="./image/user.png" alt="">
+                <span>Admin</span>
+            </a>
+
+            <div>
+                <!-- 文章点赞数 -->
+                <a href="javascript:;"><i class="iconfont icon-dianzan"></i>267</a>
+                <!-- 文章浏览量 -->
+                <a href="javascript:;"><i class="iconfont icon-huo"></i>42376</a>
+                <!-- 文章发布时间 -->
+                <a href="javascript:;"><i class="iconfont icon-shijian"></i>2022-4-15 </a>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li>
+    <!-- 文章缩略图 -->
+    <div class="left">
+        <img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fe13aa9b39484dedb11826d77251ceb0~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp?"
+            alt="">
+
+        <span class="tags_red">框架</span>
+    </div>
+
+    <!-- 文章内容 -->
+    <div class="right">
+        <!-- 文章标题 -->
+        <h2>
+            <a href="javascript:;">大菠萝？Pinia已经来了，再不学你就out了</a>
+        </h2>
+
+        <!-- 文章摘要 -->
+        <p class="list-length">
+            Pinia优势 Pinia是一个全新的Vue状态管理库，是Vuex的代替者，尤雨溪强势推荐 Vue2 和 Vue3 都能支持 抛弃传统的 Mutation ，只有
+            state,
+            getter 和 ac</p>
+
+        <!-- 文章信息 -->
+        <div class="meta">
+            <!-- 作者头像 -->
+            <a href="javascript:;">
+                <img src="./image/user.png" alt="">
+                <span>Admin</span>
+            </a>
+
+            <div>
+                <!-- 文章点赞数 -->
+                <a href="javascript:;"><i class="iconfont icon-dianzan"></i>482</a>
+                <!-- 文章浏览量 -->
+                <a href="javascript:;"><i class="iconfont icon-huo"></i>42364</a>
+                <!-- 文章发布时间 -->
+                <a href="javascript:;"><i class="iconfont icon-shijian"></i>2022-4-11 </a>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li>
+    <!-- 文章缩略图 -->
+    <div class="left">
+        <a href="./article.html">
+            <img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0cfdda6a33d040609fd0c6ca73791ef9~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?"
+                alt="">
+        </a>
+
+        <span class="tags_blue">开发记录</span>
+    </div>
+
+    <!-- 文章内容 -->
+    <div class="right">
+        <!-- 文章标题 -->
+        <h2>
+            <a href="./article.html">新一代前端应该使用的"开发套餐"</a>
+        </h2>
+
+        <!-- 文章摘要 -->
+        <p class="list-length">众所周知，前端界，框架库一直处在学不过来，大佬们还一直在开发的
+            黄金时代（卷王时代，bushi），在这个大卷王时代，我们有必要浅浅了解下这些新果实，不做上个时代的残党！</p>
+
+        <!-- 文章信息 -->
+        <div class="meta">
+            <!-- 作者头像 -->
+            <a href="javascript:;">
+                <img src="./image/user.png" alt="">
+                <span>Admin</span>
+            </a>
+
+            <div>
+                <!-- 文章点赞数 -->
+                <a href="javascript:;"><i class="iconfont icon-dianzan"></i>264</a>
+                <!-- 文章浏览量 -->
+                <a href="javascript:;"><i class="iconfont icon-huo"></i>39537</a>
+                <!-- 文章发布时间 -->
+                <a href="javascript:;"><i class="iconfont icon-shijian"></i>2022-4-23 </a>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li>
+    <!-- 文章缩略图 -->
+    <div class="left">
+        <img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/410367118c8a463dbe45fa1d30d7ad4a~tplv-k3u1fbpfcp-no-mark:240:240:240:160.awebp?"
+            alt="">
+
+        <span class="tags_yellow">大前端</span>
+    </div>
+
+    <!-- 文章内容 -->
+    <div class="right">
+        <!-- 文章标题 -->
+        <h2>
+            <a href="javascript:;">
+                <span class="tags_yellow">推荐</span>
+                2022 年值得推荐的 Vue 库！
+            </a>
+        </h2>
+
+        <!-- 文章摘要 -->
+        <p class="list-length">大家好，我是CUGGZ。 今天来推荐几个实用的 Vue 库！ 1. 状态管理 （1）Pinia Pinia 是最新一代的 Vue
+            轻量级状态管理库。它适用于 Vue 2.x 和 Vue 3.x。它是 </p>
+
+        <!-- 文章信息 -->
+        <div class="meta">
+            <!-- 作者头像 -->
+            <a href="javascript:;">
+                <img src="./image/user.png" alt="">
+                <span>Admin</span>
+            </a>
+
+            <div>
+                <!-- 文章点赞数 -->
+                <a href="javascript:;"><i class="iconfont icon-dianzan"></i>869</a>
+                <!-- 文章浏览量 -->
+                <a href="javascript:;"><i class="iconfont icon-huo"
+                        style="color: #ee7273"></i>85971</a>
+                <!-- 文章发布时间 -->
+                <a href="javascript:;"><i class="iconfont icon-shijian"></i>2022-4-21 </a>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li>
+    <!-- 文章缩略图 -->
+    <div class="left">
+        <img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b808f050e0854400b99651974d55c402~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?"
+            alt="">
+
+        <span class="tags_blue">大前端</span>
+    </div>
+
+    <!-- 文章内容 -->
+    <div class="right">
+        <!-- 文章标题 -->
+        <h2>
+            <a href="javascript:;">写了个git提交脚本，再也不用命令行了</a>
+        </h2>
+
+        <!-- 文章摘要 -->
+        <p class="list-length">
+            平时项目中我们绝大部分都是用bash命令行，或者用GUI可视化工具，无论是小乌龟还是gui工具，如果是工具比较推荐sourceTree，但是我更推荐git-fork,工具因人而已
+        </p>
+
+        <!-- 文章信息 -->
+        <div class="meta">
+            <!-- 作者头像 -->
+            <a href="javascript:;">
+                <img src="./image/user.png" alt="">
+                <span>Admin</span>
+            </a>
+
+            <div>
+                <!-- 文章点赞数 -->
+                <a href="javascript:;"><i class="iconfont icon-dianzan"></i>432</a>
+                <!-- 文章浏览量 -->
+                <a href="javascript:;"><i class="iconfont icon-huo"
+                        style="color: #ee7273"></i>61587</a>
+                <!-- 文章发布时间 -->
+                <a href="javascript:;"><i class="iconfont icon-shijian"></i>2022-4-20 </a>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li>
+    <!-- 文章缩略图 -->
+    <div class="left">
+        <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c595a7cbf2734883a7f3aa37639a6ab5~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?"
+            alt="">
+
+        <span class="tags_purple">大前端</span>
+    </div>
+
+    <!-- 文章内容 -->
+    <div class="right">
+        <!-- 文章标题 -->
+        <h2>
+            <a href="javascript:;">让MacBook成为生产力｜软件推荐｜环境配置</a>
+        </h2>
+
+        <!-- 文章摘要 -->
+        <p class="list-length">
+            本文梳理了推荐MacBook安装的一些高效软件，能够满足绝大部分的办公以及日常生活需求。其次，陈述了对于开发者必备的环境配置要求。最后总结了一些开发语言和工具的下载地址以及安装注意事项。
+        </p>
+
+        <!-- 文章信息 -->
+        <div class="meta">
+            <!-- 作者头像 -->
+            <a href="javascript:;">
+                <img src="./image/user.png" alt="">
+                <span>Admin</span>
+            </a>
+
+            <div>
+                <!-- 文章点赞数 -->
+                <a href="javascript:;"><i class="iconfont icon-dianzan"></i>267</a>
+                <!-- 文章浏览量 -->
+                <a href="javascript:;"><i class="iconfont icon-huo"></i>42376</a>
+                <!-- 文章发布时间 -->
+                <a href="javascript:;"><i class="iconfont icon-shijian"></i>2022-4-15 </a>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li>
+    <!-- 文章缩略图 -->
+    <div class="left">
+        <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3cb06981fc8a4f3fa66b314b5b77faa6~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?"
+            alt="">
+
+        <span class="tags_red">框架</span>
+    </div>
+
+    <!-- 文章内容 -->
+    <div class="right">
+        <!-- 文章标题 -->
+        <h2>
+            <a href="javascript:;">如何在繁重的工作中持续成长？</a>
+        </h2>
+
+        <!-- 文章摘要 -->
+        <p class="list-length">
+            在加班文化盛行的互联网文化中，很多开发者为自己的个人成长感到迷茫。这篇文章将会从我的个人经历出发，从打破成长的误区、如何高效的利用时间、以及坚持沉淀和写作三个方面介绍，如何在繁重的工作中也可以做到持续
+        </p>
+
+        <!-- 文章信息 -->
+        <div class="meta">
+            <!-- 作者头像 -->
+            <a href="javascript:;">
+                <img src="./image/user.png" alt="">
+                <span>Admin</span>
+            </a>
+
+            <div>
+                <!-- 文章点赞数 -->
+                <a href="javascript:;"><i class="iconfont icon-dianzan"></i>482</a>
+                <!-- 文章浏览量 -->
+                <a href="javascript:;"><i class="iconfont icon-huo"></i>42364</a>
+                <!-- 文章发布时间 -->
+                <a href="javascript:;"><i class="iconfont icon-shijian"></i>2022-4-11 </a>
+            </div>
+        </div>
+    </div>
+</li>

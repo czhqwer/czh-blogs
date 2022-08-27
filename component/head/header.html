@@ -1,0 +1,129 @@
+<!-- 导航栏 -->
+<div class="nav">
+	<div class="w">
+		<!-- 一级导航 -->
+		<ul class="one">
+			<!-- 菜单 -->
+			<li class="item" id="menu">
+				<a href="javascript:;" style="display: inline-block;">
+					<i class="iconfont icon-caidan1"></i>
+				</a>
+			</li>
+
+			<!-- logo -->
+			<li class="item1">
+				<a href="./index.html">
+					<!-- <img src="./image/logo2.png" alt="" id="logo"> -->
+					<h1><b>爱吃炸排骨</b></h1>
+				</a>
+			</li>
+
+			<div class="one" id="dataList"></div>
+
+			<script type="text/x-handlebars-template" id="mytemplate">
+				{{#each data}}
+				<li class="item1">
+					<a class="goPage" href="javascript: ;" data-sortId="{{sortId}}">
+						<i class="{{sortDescription}}"></i>{{sortName}}
+					</a>
+					{{#if sorts}}
+					<ul class="two">
+						{{#each sorts}}
+						<li>
+							<a class="goPage" href="javascript: ;" data-sortId="{{sortId}}">{{sortName}}</a>
+						</li>
+						{{/each}}
+					</ul>
+					{{/if}}
+				</li>
+				{{/each}}
+		</script> <!-- 功能栏 -->
+			<li class="function">
+				<ol>
+					<!-- 白天昼夜切换 -->
+					<li id="HighlightToggle">
+						<img src="./image/taiyang.png" alt="">
+					</li>
+
+					<li>
+						<a href="javascript:;">
+							<i class="iconfont icon-sousuo1"></i>
+						</a>
+					</li>
+				</ol>
+			</li>
+	</div>
+	</ul>
+</div>
+<!-- 移动端的侧边导航栏 -->
+<div class="mNav">
+	<!-- 头像 -->
+	<div class="user">
+		<img src="./image/user.png" alt="">
+		<span>Yuexing</span>
+		<p>不断改善成为最佳!</p>
+	</div>
+
+	<!-- 导航栏 -->
+	<div id="mNavDataList"></div>
+
+</div>
+<!-- 遮罩层 -->
+<div class="mask"></div>
+
+<script>
+	var menu_list = [];
+	$(function () {
+		$.ajax({
+			url: domainUrl + "/sorts/list",
+			data: {},
+			async: false,
+			success: function (data) {
+				menu_list = data.data
+			}
+		})
+	})
+	// console.log(menu_list);
+	//获取需要放数据的容器
+	// var container = document.querySelector('#W');
+	// //也就是获取我们定义的模板的dom对象。主要是想获取里面的内容（innerHTML）
+	// var templateDom = document.querySelector('#mytemplate');
+	// //编译模板的里的内容
+	// var template = Handlebars.compile(templateDom.innerHTML);
+	// //把后台获取到的数据student渲染到页面
+	// container.innerHTML = template(menu_list);
+
+	// var fillTemplate = function (templateObj, contentObj, fillData) {
+	// 	var templateHtml = templateObj.html();
+	// 	var template = Handlebars.compile(templateHtml);
+	// 	contentObj.html(template(fillData));
+	// };
+	fillTemplate($("#mytemplate"), $("#dataList"), { data: menu_list });
+	fillTemplate($("#mytemplate"), $("#mNavDataList"), { data: menu_list });
+	fillTemplate($("#articleTemplate"), $("#articleDataList"), { data: articleList });
+
+	// // fillTemplate($("#pageDataTemplate"), $("#pageDataList"), { data: pageList });
+
+	// Handlebars.registerHelper("list", function (items, options) {
+	// 	const itemAsHtml = items.map(item => "<li><a href='javascript: ;'>" + options.fn(item) + "</a></li>");
+	// 	return "<ul class='two' style='display: none'>\n" + itemAsHtml.join("\n") + "\n</ul>";
+	// });
+	// Handlebars.registerHelper("if", function (conditional, options) {
+	// 	if (conditional) {
+	// 		return options.fn(this);
+	// 	}
+	// });
+
+
+	$(".goPage").click(function () {
+		var sortId = this.getAttribute("data-sortId");
+		console.log("这是goPage"+ sortId);
+		
+		getArticleListPage(sortId, 1);
+		currentSortId = sortId;
+	})
+</script>
+<!-- 引入公共 JavaScript文件 -->
+<script src="../../js/public.js"></script>
+<!-- 引入页面JavaScript文件 -->
+<script src="../../js/index.js"></script>

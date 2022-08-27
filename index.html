@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 引入icon页面图标 -->
+	<link rel="shortcut icon" href="favicon.ico" />
+	<!-- 引入字体图标 -->
+	<link rel="stylesheet" href="./lib/font/iconfont.css">
+	<!-- 引入页面 CSS文件 -->
+	<link rel="stylesheet" href="./css/index.css">
+	<!-- 引入页面 初始化样式 -->
+	<link rel="stylesheet" href="./css/init.css">
+	<!-- 引入页面 公共样式 -->
+	<link rel="stylesheet" href="./css/public.css">
+	<!-- 引入页面 响应式样式 -->
+	<link rel="stylesheet" href="./css/Responsive.css">
+	<!-- 引入轮播图 -->
+	<link rel="stylesheet" href="./lib/swiper/swiper-bundle.min.css" />
+	<title>Yuexing - 不断改善，成为最佳🎉</title>
+	<script src="js/jquery-2.1.4.js"></script>
+	<script src="js/common.js"></script>
+	<!-- <script src="js/vue.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+	<script src="js/jquery.twbsPagination.min.js"></script>
+</head>
+
+<script>
+
+	var articleList = [];
+	var pageList = [];
+	var blogsPage = 1;
+	var currentSortId = 1;
+
+	$(function () {
+		$(".headerpage").load("./component/head/header.html")
+		$(".carousel").load("./component/carousel.html")
+		$(".linksW").load("./component/linksW.html")
+		$(".footer").load("./component/footer.html")
+		$(".pagination").load("./component/blogs_page.html")
+
+		getArticleListPage(currentSortId, blogsPage)
+	})
+
+</script>
+
+<body>
+	<!-- 导航栏 -->
+	<div class="headerpage"></div>
+	<!-- 轮播图 -->
+	<div class="carousel"></div>
+
+	<form method="post" id="article_form" action="articles/list">
+		<!-- 主体内容 -->
+		<div class="main">
+			<div class="w">
+				<!-- 文章列表 -->
+				<div class="list home_list">
+					<!-- 小圆点 -->
+					<div class="dots">
+						<ol>
+							<li></li>
+							<li></li>
+							<li></li>
+						</ol>
+					</div>
+
+					<!-- 列表 -->
+					<ul id="articleDataList">
+						<script type="text/x-handlebars-template" id="articleTemplate">
+					{{#each data}}
+					<li>
+						<!-- 文章缩略图 -->
+						<div class="left">
+							<a href="./article.html?articleId={{articleId}}"> 
+								<img src="{{articleImage}}" alt="">
+							</a>
+							<span class="tags_blue">{{sortName}}</span>
+						</div>
+
+						<!-- 文章内容 -->
+						<div class="right">
+							<!-- 文章标题 -->
+							<h2>
+								<a href="./article.html?articleId={{articleId}}">
+									{{#each labels}}
+										<span class="{{labelAlias}}">{{labelName}}</span>
+									{{/each}}
+									{{articleTitle}}
+								</a>
+							</h2>
+							<!-- 文章摘要 -->
+							<p class="list-length">{{articleDescription}}</p>
+
+							<!-- 文章信息 -->
+							<div class="meta">
+								<!-- 作者头像 -->
+								<a href="javascript:;">
+									<img src="{{userProfilePhoto}}" alt="">
+									<span>{{userNickname}}</span>
+								</a>
+
+								<div>
+									<!-- 文章点赞数 -->
+									<a href="javascript:;"><i class="iconfont icon-dianzan"></i>{{articleLikeCount}}</a>
+									<!-- 文章浏览量 -->
+									<a href="javascript:;"><i class="iconfont icon-huo"></i>{{articleViews}}</a>
+									<!-- 文章发布时间 -->
+									<a href="javascript:;"><i class="iconfont icon-shijian"></i>{{articleDate}} </a>
+								</div>
+							</div>
+						</div>
+					</li>
+					{{/each}}
+				</script>
+
+					</ul>
+
+
+					<!-- 分页 -->
+					<div class="pagination" id="mypagination"></div>
+
+
+					<!-- <div>
+						<ul id="pageination" class="pageination"></ul>
+					</div>
+					<script>
+					$(function() {
+						console.log(pageList)
+						$("#pageination").twbsPagination({
+							totalPage: pageList.pages || 1,
+							startPage: pageList.pageNum || 1,
+							visiblePages: 5,
+							first: "首页",
+							prev: "上页",
+							next: "下页",
+							last: "尾页",
+							initiateStartPageClick: false,
+							onPageClick: function(event,page) {
+								// $("#currentPage").val(page);
+								$("#article_form").submit();
+							}
+						})
+					})
+				</script> -->
+
+
+
+
+					<!-- 加载列表 -->
+					<div class="loadList">
+						<i class="iconfont icon-loadm"></i>
+						<span>加载更多</span>
+					</div>
+				</div>
+
+				<!-- 功能模块 -->
+				<div class="function">
+					<div class="sticky">
+						<!-- 作者详情 -->
+						<div class="author">
+							<!-- 背景图片 -->
+							<div class="author-bg">
+								<!-- 头像 -->
+								<div class="avatar">
+									<img src="./image/user.png" alt="">
+								</div>
+							</div>
+
+							<!-- 作者信息 -->
+							<div class="text">
+								<h4>
+									<a href="javascript:;">悦兴</a>
+									<div class="medal"></div>
+								</h4>
+								<p>也许，将会是最好用的博客管理系统</p>
+							</div>
+
+							<!-- 功能 -->
+							<div class="fun">
+								<!-- 发布文章 -->
+								<div class="login"><a href="javascript:;">登录</a></div>
+
+								<span></span>
+
+								<!-- 登录后台 -->
+								<div class="register"><a href="javascript:;">注册</a></div>
+							</div>
+						</div>
+
+						<!-- 随机文章 -->
+						<div class="containerA">
+							<!-- 标题 -->
+							<div class="title">
+								<h3><i class="iconfont icon-suijishushengcheng"></i> 随机文章</h3>
+								<!-- 小圆点 -->
+								<div class="dots">
+									<ol>
+										<li></li>
+										<li></li>
+										<li></li>
+									</ol>
+								</div>
+							</div>
+
+							<!-- 随机文章 -->
+							<div class="random_Alist">
+								<ul>
+									<li>
+										<i class="iconfont icon-xiangyoujiantou"></i>
+										<a href="javascript:;">2022 年的 React 生态</a>
+									</li>
+
+									<li>
+										<i class="iconfont icon-xiangyoujiantou"></i>
+										<a href="javascript:;">字节跳动自研高性能微服务框架 Kitex 的演进之旅</a>
+									</li>
+
+									<li>
+										<i class="iconfont icon-xiangyoujiantou"></i>
+										<a href="javascript:;">两年前端，广州求职，要价 14k，依我说，小伙子可以多要点，涉及组件建设、工程化以及丰富的项目经验</a>
+									</li>
+
+									<li>
+										<i class="iconfont icon-xiangyoujiantou"></i>
+										<a href="javascript:;">解放双手！推荐一款阿里开源的低代码工具，YYDS！</a>
+									</li>
+
+									<li>
+										<i class="iconfont icon-xiangyoujiantou"></i>
+										<a href="javascript:;">Web3.0来了，花呗借呗前端团队开源的Web图形引擎会成为元宇宙的技术支撑吗？</a>
+									</li>
+
+									<li>
+										<i class="iconfont icon-xiangyoujiantou"></i>
+										<a href="javascript:;">超越 Nginx！号称下一代 Web 服务器，用起来够优雅！</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<!-- 标签栏 -->
+						<div class="containerA">
+							<!-- 标题 -->
+							<div class="title">
+								<h3><i class="iconfont icon-tuya_huabanfuben"></i> 标签栏</h3>
+								<!-- 小圆点 -->
+								<div class="dots">
+									<ol>
+										<li></li>
+										<li></li>
+										<li></li>
+									</ol>
+								</div>
+							</div>
+
+							<!-- 标签 -->
+							<div class="containerA_Tags">
+								<a href="javascript:;">HTML</a>
+								<a href="javascript:;">CSS</a>
+								<a href="javascript:;">Vue</a>
+								<a href="javascript:;">jQuery</a>
+								<a href="javascript:;">Vue</a>
+								<a href="javascript:;">React</a>
+								<a href="javascript:;">Angular</a>
+								<a href="javascript:;">less</a>
+								<a href="javascript:;">Node.js</a>
+								<a href="javascript:;">Bootstrap</a>
+								<a href="javascript:;">Element</a>
+								<a href="javascript:;">scss</a>
+								<a href="javascript:;">uni-app</a>
+								<a href="javascript:;">Foundation</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<!-- 友情链接 -->
+	<div class="linksW"></div>
+
+	<!-- 底部 -->
+	<div class="footer"></div>
+
+	<!-- 侧边工具栏 -->
+	<div class="tool">
+		<div class="item">
+			<a href="javascript:;">
+				<i class="iconfont icon-zhuti_yifu_o"></i>
+			</a>
+		</div>
+
+		<div class="item">
+			<a href="javascript:;" id="returnTop">
+				<i class="iconfont icon-fanhuidingbu1"></i>
+			</a>
+		</div>
+	</div>
+
+</body>
+
+</html>

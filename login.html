@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- 引入css文件 -->
+        <link rel="stylesheet" href="./css/login.css">
+        <!-- 引入jquery -->
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="js/jquery-2.1.4.js"></script>
+        <script src="js/common.js"></script>
+        <script src="js/jquery.form.js"></script>
+        <script src="js/js.cookie.min.js"></script>
+        <script src="js/register.js"></script>
+        <title>登录</title>
+    </head>
+    <script>
+        $(function() {
+            $("#login_btn").click(function() {
+                var login_account = $("#login_account").val();
+                var login_password = $("#login_password").val();
+                $("#login_form").ajaxSubmit({
+                    url: domainUrl + "/users/login",
+                    type: "POST",
+                    data: {
+                            account: login_account,
+                            userPassword: login_password
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        if(data.code==200) {
+                            var map = data.data;
+                            var token = map.token; //后续后端获取当前用户信息
+                            var user = map.user;
+
+                            // Cookies.set('user', JSON.stringify(user), {expire: 1/48,path: '/'})
+                            // Cookies.set('token',token,{expire: 1/48, path: '/'});
+                            window.location.href = "/index.html"
+                        } else {
+                            popup(data.msg);
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+    <body>
+        <!-- 最外层的大盒子 -->
+       <div class="box">
+        <!-- 滑动盒子 -->
+        <div class="pre-box">
+            <h1>WELCOME</h1>
+            <p>JOIN US!</p>
+            <div class="img-box">
+                <img src="./image/login/waoku.jpg" alt="">
+            </div>
+        </div>
+        <!-- 注册盒子 -->
+        <div class="register-form">
+            <!-- 标题盒子 -->
+            <div class="title-box1">
+                <h1>注册</h1>
+            </div>
+            <form id="register_form" method="post">
+            <!-- 输入框盒子 -->
+            <div class="input-box1">
+                <input type="text" name="register_phone" id="register_phone" placeholder="手机号">
+                <input type="text" name="register_email" id="register_email" placeholder="邮箱">
+                <input type="text" name="register_name" id="register_name" placeholder="姓名">
+                <input type="text" name="register_nickname" id="register_nickname" placeholder="昵称">
+                <input type="password" name="register_password" id="register_password" placeholder="密码">
+                <input type="password" name="register_repassword" id="register_repassword" placeholder="确认密码">
+            </div>
+        </form>
+            <!-- 按钮盒子 -->
+            <div class="btn-box1">
+                <button id="register_btn">注册</button>
+                <!-- 绑定点击事件 -->
+                <p onclick="mySwitch()">已有账号?去登录</p>
+            </div>
+        </div>
+        <!-- 登录盒子 -->
+        <div class="login-form">
+            <!-- 标题盒子 -->
+            <div class="title-box">
+                <h1>登录</h1>
+            </div>
+            <form id="login_form" method="post">
+            <!-- 输入框盒子 -->
+            <div class="input-box">
+                <input type="text" name="login_account" id="login_account" placeholder="请输入手机号或邮箱">
+                <input type="password" name="login_password" id="login_password" placeholder="请输入密码">
+            </div>
+        </form>
+            <!-- 按钮盒子 -->
+            <div class="btn-box">
+                <button id="login_btn">登录</button>
+                <!-- 绑定点击事件 -->
+                <p onclick="mySwitch()">没有账号?去注册</p>
+            </div>
+        </div>
+       </div>
+       <script>
+            // 滑动的状态
+             let flag=true
+             const mySwitch=()=>{
+                if(flag){
+                    // 获取到滑动盒子的dom元素并修改它移动的位置
+                    $(".pre-box").css("transform","translateX(100%)")
+                    // 获取到滑动盒子的dom元素并修改它的背景颜色
+                    $(".pre-box").css("background-color","#c9e0ed")
+                    //修改图片的路径
+                    $("img").attr("src","./image/login/wuwu.jpeg")
+                    
+                }
+                else {
+                    $(".pre-box").css("transform","translateX(0%)")
+                    $(".pre-box").css("background-color","#edd4dc")
+                    $("img").attr("src","./image/login/waoku.jpg")
+                }
+                flag=!flag
+             }
+       </script>
+       <script>
+            const bubleCreate=()=>{
+                // 获取body元素
+                const body = document.body
+                // 创建泡泡元素
+                const buble = document.createElement('span')
+                // 设置泡泡半径
+                let r = Math.random()*5 + 25 //半径大小为25~30
+                // 设置泡泡的宽高
+                buble.style.width=r+'px'
+                buble.style.height=r+'px'
+                // 设置泡泡的随机起点
+                buble.style.left=Math.random()*innerWidth+'px'
+                // 为body添加buble元素
+                body.append(buble)
+                // 4s清除一次泡泡
+                setTimeout(()=>{
+                    buble.remove()
+                },4000)
+            }
+            // 每200ms生成一个泡泡
+            setInterval(() => {
+                bubleCreate()
+            }, 200);
+        </script>
+    </body>
+</html>

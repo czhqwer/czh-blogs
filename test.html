@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"">
+    <title>m-web</title>
+</head>
+<body>
+    
+
+    <!-- <h3>学生信息表</h3> -->
+    <table border="1" width="700" align="center" cellspacing="0" cellpadding="6">
+        <caption>学生信息表</caption>
+        <thead>
+            <tr align="left">
+                <td>姓名</td>
+                <td>性别</td>
+                <td>芳龄</td>
+                <td>班级</td>
+                <td>备注</td>
+            </tr>
+        </thead>
+        <tbody id="container">
+            <!--//todo 表格内容使用模板渲染 -->
+            <script type="text/x-handlebars-template" id="template">
+                {{#each this}}
+
+                <tr align="left">
+                    <td>{{name}}</td>
+                    <td>{{gender}}</td>
+                    <td>{{age}}</td>
+                    <td>{{classes}}</td>
+                    <td>{{note}}</td>
+                </tr>
+
+                {{/each}}
+            </script>
+        </tbody>
+    </table>
+
+	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script>
+        var student = [
+            {name: '鲁班七号', gender: '未知', age: '20', classes: '一年级射手班', note: '智商二百五的电玩小子，biubiubiu，就是腿短！'},
+            {name: '安琪拉', gender: '女', age: '18', classes: '一年级法师班', note: '什么什么魔法书！'},
+            {name: '程咬金', gender: '男', age: '30', classes: '一年级二班', note: '爱与正义之斧，偷偷推到'},
+            {name: '阿珂', gender: '女', age: '19', classes: '三年级刺客班', note: '哪里亮了点哪里，都是我的人头！'},
+            {name: '李白', gender: '男', age: '20', classes: '一年级酒酒仙班', note: '但愿长醉不愿醒，我是来无影去无踪，帅!'},
+            {name: '森瑶', gender: '女', age: '20', classes: '皮肤班级', note: '不然梦会碎还是破！'}
+        ]
+        
+        //获取需要放数据的容器
+        var container = document.querySelector('#container');
+        //也就是获取我们定义的模板的dom对象。主要是想获取里面的内容（innerHTML）
+        var templateDom = document.querySelector('#template');
+        //编译模板的里的内容
+        var template = Handlebars.compile(templateDom.innerHTML);
+        //把后台获取到的数据student渲染到页面
+        container.innerHTML = template(student);
+    </script>
+</body>
+</html>

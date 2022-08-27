@@ -1,0 +1,65 @@
+<div class="pagination" id="pageDataList">
+    <!-- <a href="javascript:;">‹‹</a>
+    <a href="javascript:;">‹</a>
+    <a href="javascript:;" class="paginationAction">1</a>
+    <a href="javascript:;">2</a>
+    <a href="javascript:;">3</a>
+    <a href="javascript:;">4</a>
+    <a href="javascript:;">5</a>
+    <a href="javascript:;">6</a>
+    <a href="javascript:;">›</a>
+    <a href="javascript:;">››</a> -->
+</div>
+<script type="text/x-handlebars-template" id="pageDataTemplate">
+    <a href="javascript: ;">‹‹</a>
+    <a href="javascript: ;">‹</a>
+    <a href="javascript: ;" onclick="goPage(0)">{{prePage}}</a>
+    <a href="javascript: ;" class="paginationAction">{{pageNum}}</a>
+    <a href="javascript: ;" onclick="goPage(1)">{{nextPage}}</a>
+    <a href="javascript: ;">›</a>
+    <a href="javascript: ;">››</a>
+</script>
+<script>
+    var container = document.querySelector('#pageDataList');
+    //也就是获取我们定义的模板的dom对象。主要是想获取里面的内容（innerHTML）
+    var templateDom = document.querySelector('#pageDataTemplate');
+    //编译模板的里的内容
+    var template = Handlebars.compile(templateDom.innerHTML);
+    //把后台获取到的数据student渲染到页面
+    container.innerHTML = template(pageList);
+
+    function goPage(num) {
+
+        if (num == 0) {
+            if (pageList.hasPreviousPage) {
+                movePage(pageList.prePage)
+            }
+        } else if (num == 1) {
+            if (pageList.hasNextPage) {
+                console.log("进来了");
+                movePage(pageList.nextPage)
+            }
+        } else {
+            alert("无效操作")
+        }
+    }
+
+    function movePage(num) {
+        $.ajax({
+			url: domainUrl + "/articles/list",
+			type: "POST",
+            async: false,
+			data: {
+                currentPage: num
+            },
+			async: false,
+			success: function (data) {
+				pageList = data.data;
+				articleList = data.data.list;
+                //  $("#articleTemplate").children("li").remove();
+                
+            	// fillTemplate($("#articleTemplate"), $("#articleDataList"), { data: articleList });
+			}
+		})
+    }
+</script>
