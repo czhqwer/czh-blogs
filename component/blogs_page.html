@@ -1,15 +1,4 @@
-<div class="pagination" id="pageDataList">
-    <!-- <a href="javascript:;">‹‹</a>
-    <a href="javascript:;">‹</a>
-    <a href="javascript:;" class="paginationAction">1</a>
-    <a href="javascript:;">2</a>
-    <a href="javascript:;">3</a>
-    <a href="javascript:;">4</a>
-    <a href="javascript:;">5</a>
-    <a href="javascript:;">6</a>
-    <a href="javascript:;">›</a>
-    <a href="javascript:;">››</a> -->
-</div>
+<!-- <div class="pagination" id="pageDataLists"></div>
 <script type="text/x-handlebars-template" id="pageDataTemplate">
     <a href="javascript: ;">‹‹</a>
     <a href="javascript: ;">‹</a>
@@ -20,7 +9,7 @@
     <a href="javascript: ;">››</a>
 </script>
 <script>
-    var container = document.querySelector('#pageDataList');
+    var container = document.querySelector('#pageDataLists');
     //也就是获取我们定义的模板的dom对象。主要是想获取里面的内容（innerHTML）
     var templateDom = document.querySelector('#pageDataTemplate');
     //编译模板的里的内容
@@ -57,9 +46,52 @@
 				pageList = data.data;
 				articleList = data.data.list;
                 //  $("#articleTemplate").children("li").remove();
-                
+                  
             	// fillTemplate($("#articleTemplate"), $("#articleDataList"), { data: articleList });
 			}
 		})
     }
+</script> -->
+
+
+<div class="pageination pagination-lg" id="pageDataLists">
+    <a href="javascript: ;" id="pageList_a"></a>
+</div>
+<script src="../js/jquery-2.1.4.js"></script>
+<script src="../js/jquery.twbsPagination.min.js"></script>
+<script src="../js/jquery.form.js"></script>
+<script>
+    $(function () {
+        //分页
+        $('#pageList_a').twbsPagination({
+            //total总记录数，就是多少条数据  pages总页数
+            totalPages: pageList.pages,
+            visiblePages: 5,
+            first: '‹‹',
+            last: '››',
+            prev: '‹',
+            next: '›',
+            onPageClick: function (event, page) {
+                console.log(event);
+                console.log(page);
+                blogsPage = page;
+                $("#currentPage").val(page)
+                $("#article_form").ajaxSubmit({
+                    url: domainUrl + "/articles/list",
+                    type: "POST",
+                    data: {
+                        currentPage: page,
+                        sortId: 2
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        pageList = data.data;
+                        articleList = data.data.list
+                        fillTemplate($("#articleTemplate"), $("#articleDataList"), { data: articleList });
+                    }
+                });
+            }
+        });
+    })
+
 </script>

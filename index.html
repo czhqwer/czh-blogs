@@ -19,6 +19,8 @@
 	<link rel="stylesheet" href="./css/Responsive.css">
 	<!-- 引入轮播图 -->
 	<link rel="stylesheet" href="./lib/swiper/swiper-bundle.min.css" />
+	<!-- <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.css" /> -->
+	<link rel="stylesheet" href="./css/pageInfo.css" />
 	<title>Yuexing - 不断改善，成为最佳🎉</title>
 	<script src="js/jquery-2.1.4.js"></script>
 	<script src="js/common.js"></script>
@@ -40,8 +42,9 @@
 		$(".linksW").load("./component/linksW.html")
 		$(".footer").load("./component/footer.html")
 		$(".pagination").load("./component/blogs_page.html")
-
 		getArticleListPage(currentSortId, blogsPage)
+
+
 	})
 
 </script>
@@ -52,7 +55,9 @@
 	<!-- 轮播图 -->
 	<div class="carousel"></div>
 
-	<form method="post" id="article_form" action="articles/list">
+	<form method="post" id="article_form">
+		<input hidden name="currentPage" id="currentPage" />
+		<input hidden name="sortId" id="sortId" />
 		<!-- 主体内容 -->
 		<div class="main">
 			<div class="w">
@@ -120,33 +125,7 @@
 
 
 					<!-- 分页 -->
-					<div class="pagination" id="mypagination"></div>
-
-
-					<!-- <div>
-						<ul id="pageination" class="pageination"></ul>
-					</div>
-					<script>
-					$(function() {
-						console.log(pageList)
-						$("#pageination").twbsPagination({
-							totalPage: pageList.pages || 1,
-							startPage: pageList.pageNum || 1,
-							visiblePages: 5,
-							first: "首页",
-							prev: "上页",
-							next: "下页",
-							last: "尾页",
-							initiateStartPageClick: false,
-							onPageClick: function(event,page) {
-								// $("#currentPage").val(page);
-								$("#article_form").submit();
-							}
-						})
-					})
-				</script> -->
-
-
+					<div class="pagination" align="center" id="mypagination"></div>
 
 
 					<!-- 加载列表 -->
